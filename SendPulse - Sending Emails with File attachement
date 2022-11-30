@@ -1,0 +1,38 @@
+/*
+* Attaching files to an email, 
+* the docs (https://sendpulse.ng/integrations/api) may not be too clear on how to specifically do it, 
+* so there is an example (JS)
+*
+*/
+
+
+var API_USER_ID = "xxxxxxx";
+var API_SECRET = "xxxxxxxx";
+
+var TOKEN_STORAGE = "/tmp/";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+var email = {
+        "html": "<h1>Example text</h1>",
+        "text": "Example text",
+        "subject": "Example subject 2",
+        "from": {
+        "name": "Vitalas",
+        "email": "test@test.ua"
+        },
+        "to": [
+        {
+                "name": "Alex",
+                "email": "vtest@test.com"
+        },
+        ],
+        "attachments_binary": {
+        "FileName.pdf": Buffer.from(fs.readFileSync('FileName.pdf')).toString('base64')
+        }
+};
+
+sendpulse.init(API_USER_ID,API_SECRET,TOKEN_STORAGE,function() {
+        console.log('Sending email ...');
+        sendpulse.smtpSendMail(console.log,email);
+});
+
